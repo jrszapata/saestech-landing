@@ -11,13 +11,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - name: Install Dependencies
-        run: npm install
-      - name: Build project
-        run: npm run build
       - name: Deploy to Heroku
         run: git push -f https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP }}.git origin/master:master
