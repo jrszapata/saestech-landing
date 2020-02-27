@@ -19,24 +19,5 @@ jobs:
         run: npm install
       - name: Build project
         run: npm run build
-      - name: Login to Heroku Container Registry
-        uses: actions/heroku@master
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        with:
-          args: container:login
-      - name: Push to Heroku Container Registry
-        uses: actions/heroku@master
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP: ${{ secrets.HEROKU_APP }}
-        with:
-          args: container:push -a saestech-landing web
-      - name: Release to Heroku
-        uses: actions/heroku@master
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP: ${{ secrets.HEROKU_APP }}
-        with:
-          args: container:release -a saestech-landing web
-
+      - name: Deploy to Heroku
+        run: git push -f https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP }}.git origin/master:master
