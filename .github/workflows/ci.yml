@@ -10,7 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Test
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install Dependencies
+        run: npm install
+      - name: Build project
+        run: npm run build
+      - name: Login to Heroku Container Registry
+        uses: actions/heroku@master
         env:
-          SOME_VAL: 'SOME-RANDOM-NAME'
-        run: echo $SOME_VAL
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        with:
+          args: container:login
+      - name: Push to Heroku Container Registry
+        uses: actions/heroku@master
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        with:
+          args: container:push -a $HEROKU_APP web
+      - name: Release to Heroku
+        uses: actions/heroku@master
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        with:
+          args: container:release -a $HEROKU_APP web
+
