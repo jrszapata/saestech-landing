@@ -14,4 +14,5 @@ jobs:
       - name: Deploy to Heroku
         run: |
           git remote -v
+          git fectch --unshallow
           git push -f https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP }}.git origin/master:master
