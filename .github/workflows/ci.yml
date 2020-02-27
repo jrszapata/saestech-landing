@@ -36,5 +36,5 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         with:
-          args: container:release -a ${{ secrets.HEROKU_APP }
+          args: container:release -a ${{ secrets.HEROKU_APP }}
 
