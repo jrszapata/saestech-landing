@@ -12,28 +12,28 @@ jobs:
       matrix:
         node-version: [12.x]
 
-      steps:
-        - uses: actions/checkout@v2
-        - name: Setup node
-          uses: action/setup-node@v1
-          with:
-            node-version: ${{ matrix.version }}
-        - name: Install Dependencies
-          run: npm install
-        - name: Build project
-          run: npm run build
-        - uses: actions/heroku@latest
-        - name: Login to Heroku Container Registry
-          env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          run: heroku container:login
-        - name: Build and Push to Heroku
-          env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          run: heroku container:push -a ${{ secrets.HEROKU_APP }}
-        - name: Deploy
-          env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: action/setup-node@v1
+        with:
+          node-version: ${{ matrix.version }}
+      - name: Install Dependencies
+        run: npm install
+      - name: Build project
+        run: npm run build
+      - uses: actions/heroku@latest
+      - name: Login to Heroku Container Registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Build and Push to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push -a ${{ secrets.HEROKU_APP }}
+      - name: Deploy
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }}
 
 runs-on: self-hosted
